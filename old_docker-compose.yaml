@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: college_erp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist PostgreSQL data
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port (only needed for external connections)
+    networks:
+      - my_network   # Use custom network for inter-container communication
+
+  # Django Web App Service
+  web:
+    build: .
+    container_name: django_app
+    environment:
+      - DEBUG=True
+      - DB_HOST=db        # Database hostname (the service name defined above)
+      - DB_PORT=5432
+      - DB_NAME=college_erp
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
+    ports:
+      - "8000:8000"        # Expose Django port for access
+    depends_on:
+      - db                 # Ensure db starts before web
+    command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    networks:
+      - my_network   # Use custom network for inter-container communication
+
+# Persistent data for PostgreSQL
+volumes:
+  postgres_data:
+
+# Define custom network for inter-container communication
+networks:
+  my_network:
+    driver: bridge
+

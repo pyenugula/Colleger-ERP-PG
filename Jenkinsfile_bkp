@@ -1,0 +1,86 @@
+pipeline {
+    agent {
+        label 'docker-agent'
+    }
+
+    environment {
+        ACR_LOGIN_SERVER = "collegeerp.azurecr.io"
+        IMAGE_NAME = "college-erp"
+        IMAGE_TAG = "${IMAGE_NAME}-${BUILD_NUMBER}"
+        FULL_IMAGE = "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}"
+    }
+
+    stages {
+
+        stage("Checkout") {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage("Build Docker Image") {
+            steps {
+                sh """
+                  docker build -t ${FULL_IMAGE} .
+                """
+            }
+        }
+
+        stage("Trivy Image Scan (HIGH, CRITICAL)") {
+            steps {
+                sh """
+                  trivy image \
+                    --severity HIGH,CRITICAL \
+                    --ignore-unfixed \
+		    --exit-code 1 \
+                    --no-progress \
+                    ${FULL_IMAGE}
+                """
+            }
+        }
+
+        stage("Login to Azure Container Registry") {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'acr-creds',
+                    usernameVariable: 'ACR_USER',
+                    passwordVariable: 'ACR_PASS'
+                )]) {
+                    sh """
+                      echo "$ACR_PASS" | docker login \
+                        ${ACR_LOGIN_SERVER} \
+                        -u "$ACR_USER" \
+                        --password-stdin
+                    """
+                }
+            }
+        }
+
+        stage("Push Image to ACR") {
+            steps {
+                sh """
+                  docker push ${FULL_IMAGE}
+                """
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Image built, scanned, and pushed successfully"
+        }
+
+        failure {
+            echo "❌ Build failed — image was NOT pushed"
+        }
+
+        cleanup {
+            sh """
+              docker logout ${ACR_LOGIN_SERVER} || true
+              docker image rm ${FULL_IMAGE} || true
+              docker system prune -f || true
+            """
+        }
+    }
+}
+

@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_USER: ${DB_USER}           # Use environment variable for DB user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}   # Use environment variable for DB password
+      POSTGRES_DB: ${DB_NAME}             # Use environment variable for DB name
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist PostgreSQL data
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port (only needed for external connections)
+    networks:
+      - my_network   # Use custom network for inter-container communication
+
+  # Django Web App Service (using pre-built image)
+  web:
+    image: college-erp-web:v1  # Use the pre-built image here
+    container_name: college_erp_web
+    environment:
+      - DEBUG=${DEBUG}         # Use environment variable for DEBUG
+      - DB_HOST=${DB_HOST}     # Database hostname (the service name defined above)
+      - DB_PORT=${DB_PORT}     # Database port
+      - DB_NAME=${DB_NAME}     # Database name
+      - DB_USER=${DB_USER}     # Database user
+      - DB_PASSWORD=${DB_PASSWORD}  # Database password
+    ports:
+      - "8000:8000"        # Expose Django port for access
+    depends_on:
+      - db                 # Ensure db starts before web
+    volumes:
+      - ./staticfiles:/app/staticfiles  # Map staticfiles directory
+    networks:
+      - my_network   # Use custom network for inter-container communication
+
+# Persistent data for PostgreSQL
+volumes:
+  postgres_data:
+
+# Define custom network for inter-container communication
+networks:
+  my_network:
+    driver: bridge
+

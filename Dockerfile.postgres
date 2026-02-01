@@ -1,0 +1,6 @@
+# Use the official Postgres 13 image as the base
+FROM postgres:13
+
+# Expose PostgreSQL port (default 5432)
+EXPOSE 5432
+

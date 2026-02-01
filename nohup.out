@@ -1,0 +1,226 @@
+python: can't open file '/app/manage.py': [Errno 2] No such file or directory
+python: can't open file '/app/manage.py': [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "/app/manage.py", line 15, in <module>
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 412, in run_from_argv
+    parser = self.create_parser(argv[0], argv[1])
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 375, in create_parser
+    self.add_arguments(parser)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/commands/migrate.py", line 45, in add_arguments
+    choices=tuple(connections),
+  File "/usr/local/lib/python3.10/site-packages/django/utils/connection.py", line 73, in __iter__
+    return iter(self.settings)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/connection.py", line 45, in settings
+    self._settings = self.configure_settings(self._settings)
+  File "/usr/local/lib/python3.10/site-packages/django/db/utils.py", line 148, in configure_settings
+    databases = super().configure_settings(databases)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/connection.py", line 50, in configure_settings
+    settings = getattr(django_settings, self.settings_name)
+  File "/usr/local/lib/python3.10/site-packages/django/conf/__init__.py", line 81, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.10/site-packages/django/conf/__init__.py", line 68, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.10/site-packages/django/conf/__init__.py", line 166, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/local/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/CollegeERP/settings.py", line 15, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv'
+System check identified some issues:
+
+WARNINGS:
+info.Assign: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AssignTime: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.Attendance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AttendanceClass: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AttendanceRange: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AttendanceTotal: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.Marks: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.MarksClass: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.StudentCourse: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.User: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 332, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/usr/local/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: could not translate host name "db" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/manage.py", line 15, in <module>
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 420, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 464, in execute
+    output = self.handle(*args, **options)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 111, in wrapper
+    res = handle_func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/commands/migrate.py", line 114, in handle
+    executor = MigrationExecutor(connection, self.migration_progress_callback)
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/loader.py", line 58, in __init__
+    self.build_graph()
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/loader.py", line 235, in build_graph
+    self.applied_migrations = recorder.applied_migrations()
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/recorder.py", line 89, in applied_migrations
+    if self.has_table():
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/recorder.py", line 63, in has_table
+    with self.connection.cursor() as cursor:
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/usr/local/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 332, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/usr/local/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+django.db.utils.OperationalError: could not translate host name "db" to address: Name or service not known
+
+System check identified some issues:
+
+WARNINGS:
+info.Assign: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AssignTime: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.Attendance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AttendanceClass: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AttendanceRange: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.AttendanceTotal: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.Marks: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.MarksClass: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.StudentCourse: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+info.User: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InfoConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 332, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/usr/local/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: could not translate host name "db" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/manage.py", line 15, in <module>
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 420, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 464, in execute
+    output = self.handle(*args, **options)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 111, in wrapper
+    res = handle_func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/commands/migrate.py", line 114, in handle
+    executor = MigrationExecutor(connection, self.migration_progress_callback)
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/loader.py", line 58, in __init__
+    self.build_graph()
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/loader.py", line 235, in build_graph
+    self.applied_migrations = recorder.applied_migrations()
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/recorder.py", line 89, in applied_migrations
+    if self.has_table():
+  File "/usr/local/lib/python3.10/site-packages/django/db/migrations/recorder.py", line 63, in has_table
+    with self.connection.cursor() as cursor:
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/usr/local/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 332, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/usr/local/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+django.db.utils.OperationalError: could not translate host name "db" to address: Name or service not known
+
