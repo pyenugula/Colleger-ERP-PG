@@ -1,23 +1,33 @@
+
 # College-ERP
 A college management system built using Django framework. It is designed for interactions between students and teachers. Features include attendance, marks and time table.
 
 ## Installation
 
-Python and Django need to be installed
+docker build -t <name> -f Dockerfile.web .
 
-```bash
-pip install django
-```
+#For PG Imaage
 
-## Usage
+docker build -t <name> -f Dockerfile.postgres .
 
-Go to the College-ERP folder and run
 
-```bash
-python manage.py runserver
-```
+#Docker compose 
 
-Then go to the browser and enter the url **http://127.0.0.1:8000/**
+docker compose up --build -d 
+
+#change the images in the docker compose yaml file with name of the image you created.
+
+docker ps --> you see conatiners running.
+
+#login in to the app image create a super user 
+
+docker exec -it <name of conatiner> bash 
+
+#run the command 
+
+python manage.py createsuperuser
+
+Then go to the browser and enter the url **http://<ip>:8000/**
 
 
 ## Login
@@ -31,11 +41,6 @@ teacher- 'trisila'
 
 You can access the django admin page at **http://127.0.0.1:8000/admin** and login with username 'admin' and the above password.
 
-Also a new admin user can be created using
-
-```bash
-python manage.py createsuperuser
-```
 
 ## Users
 
