@@ -42,11 +42,33 @@ pipeline {
             }
         }
 
+        stage("Trivy Image Scan (Web Image)") {
+        steps {
+        sh """
+            trivy image \
+                --severity HIGH,CRITICAL \
+                --ignore-unfixed \
+                --no-progress \
+                ${FULL_WEB_IMAGE} || true
+        """
+    }
+}
 
+    stage("Trivy Image Scan (PostgreSQL Image)") {
+    steps {
+        sh """
+            trivy image \
+                --severity HIGH,CRITICAL \
+                --ignore-unfixed \
+                --exit-code 1 \
+                --no-progress \
+                ${FULL_POSTGRES_IMAGE} || true
+        """
+    }
+}
 
-
-        stage("Login to Azure Container Registry") {
-            steps {
+    stage("Login to Azure Container Registry") {
+    steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'acr-creds',
                     usernameVariable: 'ACR_USER',
