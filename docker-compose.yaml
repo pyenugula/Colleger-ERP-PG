@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # PostgreSQL Database Service
   db:
-    image: postgres:latest
+    image: collegeerp.azurecr.io/college-erp-postgres:${IMAGE_TAG}
     container_name: db
     environment:
       POSTGRES_USER: ${DB_USER}           # Use environment variable for DB user
@@ -18,7 +18,7 @@ services:
 
   # Django Web App Service (using pre-built image)
   web:
-    image: college-erp-web:v1  # Use the pre-built image here
+    image: collegeerp.azurecr.io/college-erp-web:${IMAGE_TAG}  # Use the pre-built image here
     container_name: college_erp_web
     environment:
       - DEBUG=${DEBUG}         # Use environment variable for DEBUG
