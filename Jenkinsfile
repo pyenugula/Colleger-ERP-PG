@@ -99,7 +99,7 @@ pipeline {
                 """
             }
         }
-    }
+    
 
             // **Deploy Stage**: Deploy the images using Docker Compose
        stage("Deploy") {
@@ -113,7 +113,7 @@ pipeline {
                 }
             }
         }
-    }
+    
 
     post {
         success {
@@ -133,5 +133,7 @@ pipeline {
             """
         }
     }
+    }
+}
 
 
