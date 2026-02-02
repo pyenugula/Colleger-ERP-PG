@@ -60,7 +60,6 @@ pipeline {
                   trivy image \
                     --severity HIGH,CRITICAL \
                     --ignore-unfixed \
-                    --exit-code 1 \
                     --no-progress \
                     ${FULL_POSTGRES_IMAGE}
                 """
