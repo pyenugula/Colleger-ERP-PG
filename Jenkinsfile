@@ -79,6 +79,20 @@ pipeline {
         }
     }
 
+            // **Deploy Stage**: Deploy the images using Docker Compose
+       stage("Deploy") {
+            steps {
+                script {
+                    // Make sure the docker-compose.yml is present and configured
+                    // Optionally, you can specify additional flags if needed
+                    sh """
+                        docker-compose -f docker-compose.yml up --build -d
+                    """
+                }
+            }
+        }
+    }
+
     post {
         success {
             echo "✅ Web and PostgreSQL images built, scanned, and pushed successfully"
