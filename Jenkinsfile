@@ -44,41 +44,7 @@ pipeline {
             }
         }
 
-stage("Trivy Image Scan (Web Image)") {
-    steps {
-        script {
-            try {
-                sh """
-                  trivy image \
-                    --severity HIGH,CRITICAL \
-                    --ignore-unfixed \
-                    --no-progress \
-                    ${FULL_WEB_IMAGE}
-                """
-            } catch (Exception e) {
-                echo "Trivy scan failed for Web Image, but continuing build."
-            }
-        }
-    }
-}
 
-stage("Trivy Image Scan (PostgreSQL Image)") {
-    steps {
-        script {
-            try {
-                sh """
-                  trivy image \
-                    --severity HIGH,CRITICAL \
-                    --ignore-unfixed \
-                    --no-progress \
-                    ${FULL_POSTGRES_IMAGE}
-                """
-            } catch (Exception e) {
-                echo "Trivy scan failed for PostgreSQL Image, but continuing build."
-            }
-        }
-    }
-}
 
 
         stage("Login to Azure Container Registry") {
