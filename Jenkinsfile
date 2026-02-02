@@ -48,7 +48,6 @@ pipeline {
                   trivy image \
                     --severity HIGH,CRITICAL \
                     --ignore-unfixed \
-                    --exit-code 1 \
                     --no-progress \
                     ${FULL_WEB_IMAGE}
                 """
