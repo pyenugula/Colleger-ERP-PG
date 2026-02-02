@@ -24,11 +24,11 @@ RUN pip install --upgrade pip setuptools wheel \
 COPY code/ .
 
 # ---- Copy .env file ----
-COPY .env .env  # We will use this for environment variables (including database creds)
+
+COPY .env .env
 
 # ---- Expose Django port ----
 EXPOSE 8000
 
 # ---- Run migrations + server ----
 CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
-
