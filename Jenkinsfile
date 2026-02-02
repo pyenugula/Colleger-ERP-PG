@@ -107,7 +107,7 @@ pipeline {
                     // Make sure the docker-compose.yml is present and configured
                     // Optionally, you can specify additional flags if needed
                     sh """
-                        docker compose -f docker-compose.yml up --build -d
+                        /usr/bin/docker compose -f docker-compose.yml up --build -d
                     """
                 }
             }
