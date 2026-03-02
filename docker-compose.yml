@@ -4,7 +4,7 @@ services:
   # PostgreSQL Database Service
   db:
     image: collegeerp.azurecr.io/college-erp-postgres:${IMAGE_TAG}
-    container_name: db
+    container_name: db_${IMAGE_TAG}
     environment:
       POSTGRES_USER: ${DB_USER}           # Use environment variable for DB user
       POSTGRES_PASSWORD: ${DB_PASSWORD}   # Use environment variable for DB password
