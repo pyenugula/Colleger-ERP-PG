@@ -1,0 +1,86 @@
+# Deploying College-ERP on Azure Kubernetes Service (AKS)
+This guide walks through deploying the College-ERP application on AKS using an Azure Container Registry (ACR) image.
+1. Login to Azure
+az login
+
+2. Check Azure Container Service Provider Registration
+az provider show --namespace Microsoft.ContainerService --query registrationState
+If it returns "Registered", you can skip registration. Otherwise:
+az provider register --namespace Microsoft.ContainerService
+Verify registration:
+az provider show --namespace Microsoft.ContainerService --query registrationState
+
+3. Set Up Environment Variables
+Generate a random ID for unique resource names:
+export RANDOM_ID="$(openssl rand -hex 3)"
+export MY_RESOURCE_GROUP_NAME="college-erp$RANDOM_ID"
+export REGION="centralus"
+export MY_AKS_CLUSTER_NAME="college-erp$RANDOM_ID"
+export MY_DNS_LABEL="mydnslabel$RANDOM_ID"
+
+echo $RANDOM_ID
+
+4. Create Azure Resource Group
+az group create --name $MY_RESOURCE_GROUP_NAME --location $REGION
+
+5. Create AKS Cluster
+az aks create \
+  --resource-group $MY_RESOURCE_GROUP_NAME \
+  --name $MY_AKS_CLUSTER_NAME \
+  --node-count 1 \
+  --node-vm-size Standard_D2s_v3 \
+  --generate-ssh-keys
+
+6. Configure kubectl to Connect to AKS
+az aks get-credentials --resource-group $MY_RESOURCE_GROUP_NAME --name $MY_AKS_CLUSTER_NAME
+kubectl get nodes
+
+7. Create Kubernetes Image Pull Secret for ACR
+Step 7.1: Verify ACR Credentials
+Your ACR username and password:
+az acr credential show --name collegeerp --query "username"
+# Output: "collegeerp"
+
+az acr credential show --name collegeerp --query "passwords[0].value"
+# Output: "vxB45S7H303RMKYiY48piGWy1zFmvyrx40U9ecldcLa8AAK19mr8JQQJ99CAAC1i4TkEqg7NAAACAZCRbFzg"
+Step 7.2: Create Kubernetes Secret
+kubectl create secret docker-registry acr-secret \
+  --docker-server=collegeerp.azurecr.io \
+  --docker-username="collegeerp" \
+  --docker-password="vxB45S7H303RMKYiY48piGWy1zFmvyrx40U9ecldcLa8AAK19mr8JQQJ99CAAC1i4TkEqg7NAAACAZCRbFzg" \
+  --docker-email="pavan.nec@gmail.com"
+Output should confirm:
+secret/acr-secret created
+
+8. Reference the Secret in Your Deployment YAML
+Add imagePullSecrets under spec:
+spec:
+  containers:
+    - name: college-erp-web
+      image: collegeerp.azurecr.io/college-erp-web:latest
+      ...
+  imagePullSecrets:
+    - name: acr-secret
+
+9. Apply Kubernetes Manifests
+kubectl apply -f k8s/
+Ensure your manifests include Deployment, Service, PVC, and any necessary ConfigMaps or Secrets.
+
+10. Expose Web Service with LoadBalancer
+If your Service is ClusterIP, change it to LoadBalancer:
+kind: Service
+apiVersion: v1
+metadata:
+  name: college-erp-web
+spec:
+  type: LoadBalancer
+  selector:
+    app: college-erp-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+Apply changes:
+kubectl apply -f web-service.yaml
+kubectl get svc college-erp-web
+Use the external IP to access your application.
