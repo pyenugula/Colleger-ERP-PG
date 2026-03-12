@@ -21,7 +21,7 @@ pipeline {
             }
         }
 
-        stage("Build & Push Docker Images") {
+        stage("Build, Push and scan The Docker Images To Azure ACR") {
             steps {
                 script {
                     withCredentials([usernamePassword(
