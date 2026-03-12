@@ -1,0 +1,113 @@
+pipeline {
+    agent {
+        label 'docker-agent'
+    }
+
+    environment {
+        ACR_LOGIN_SERVER = "collegeerp.azurecr.io"
+        WEB_IMAGE_NAME = "college-erp-web"
+        POSTGRES_IMAGE_NAME = "college-erp-postgres"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        FULL_WEB_IMAGE = "${ACR_LOGIN_SERVER}/${WEB_IMAGE_NAME}:${IMAGE_TAG}"
+        FULL_POSTGRES_IMAGE = "${ACR_LOGIN_SERVER}/${POSTGRES_IMAGE_NAME}:${IMAGE_TAG}"
+        ACR_SECRET_NAME = "acr-secret"
+    }
+
+    stages {
+
+        stage("Checkout") {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage("Build & Push Docker Images") {
+            steps {
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'acr-creds',
+                        usernameVariable: 'ACR_USER',
+                        passwordVariable: 'ACR_PASS'
+                    )]) {
+                        sh """
+                            # Login to ACR
+                            echo "$ACR_PASS" | docker login ${ACR_LOGIN_SERVER} -u "$ACR_USER" --password-stdin
+
+                            # Build Web image
+                            docker build -t ${FULL_WEB_IMAGE} -f Dockerfile.web .
+
+                            # Build PostgreSQL image
+                            docker build -t ${FULL_POSTGRES_IMAGE} -f Dockerfile.postgres .
+
+                            # Scan Web image
+                            trivy image --severity HIGH,CRITICAL --ignore-unfixed --no-progress ${FULL_WEB_IMAGE} || true
+
+                            # Scan PostgreSQL image
+                            trivy image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress ${FULL_POSTGRES_IMAGE} || true
+
+                            # Push images
+                            docker push ${FULL_WEB_IMAGE}
+                            docker push ${FULL_POSTGRES_IMAGE}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage("Deploy to Kubernetes") {
+            steps {
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'acr-creds',
+                        usernameVariable: 'ACR_USER',
+                        passwordVariable: 'ACR_PASS'
+                    )]) {
+                        sh """
+                            # Delete existing secret if any
+                            kubectl delete secret ${ACR_SECRET_NAME} --ignore-not-found=true --namespace default
+
+                            # Create secret for ACR
+                            kubectl create secret docker-registry ${ACR_SECRET_NAME} \
+                                --docker-server=${ACR_LOGIN_SERVER} \
+                                --docker-username=${ACR_USER} \
+                                --docker-password=${ACR_PASS} \
+                                --docker-email=ci@example.com \
+                                --namespace default
+
+                            # Apply all Kubernetes manifests
+                            kubectl apply -f k8s/
+
+                            # Update deployments with new image tags
+                            kubectl set image deployment/web web=${FULL_WEB_IMAGE} --namespace default
+                            kubectl set image deployment/db db=${FULL_POSTGRES_IMAGE} --namespace default
+
+                            # Wait for rollouts
+                            kubectl rollout status deployment/web --namespace default
+                            kubectl rollout status deployment/db --namespace default
+                        """
+                    }
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo "✅ Images built, scanned, pushed, and deployed to Kubernetes successfully"
+        }
+
+        failure {
+            echo "❌ Pipeline failed — images may not be fully deployed"
+        }
+
+        cleanup {
+            sh """
+              docker logout ${ACR_LOGIN_SERVER} || true
+              docker image rm ${FULL_WEB_IMAGE} || true
+              docker image rm ${FULL_POSTGRES_IMAGE} || true
+              docker system prune -f || true
+            """
+        }
+    }
+}
